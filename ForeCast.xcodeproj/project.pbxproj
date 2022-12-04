@@ -17,6 +17,15 @@
 		3746148C29391E6A00CD4BF3 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3746148B29391E6A00CD4BF3 /* AppCoordinator.swift */; };
 		3746148E29391F1300CD4BF3 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3746148D29391F1300CD4BF3 /* WeatherModel.swift */; };
 		374614912939208200CD4BF3 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374614902939208200CD4BF3 /* CoreDataManager.swift */; };
+		374614932939237600CD4BF3 /* OnboardingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374614922939237600CD4BF3 /* OnboardingVC.swift */; };
+		374614962939B9EC00CD4BF3 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374614952939B9EC00CD4BF3 /* CustomTextView.swift */; };
+		374614982939EC9600CD4BF3 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374614972939EC9600CD4BF3 /* CustomButton.swift */; };
+		3746149C2939F5AE00CD4BF3 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3746149A2939F57700CD4BF3 /* Helper.swift */; };
+		3746149E293A476E00CD4BF3 /* CustomTimeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3746149D293A476E00CD4BF3 /* CustomTimeLabel.swift */; };
+		374614A0293A487E00CD4BF3 /* MainBlueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3746149F293A487E00CD4BF3 /* MainBlueView.swift */; };
+		374614A3293A4B1400CD4BF3 /* TimeViewMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374614A2293A4B1400CD4BF3 /* TimeViewMainVC.swift */; };
+		374614A5293A633C00CD4BF3 /* WeatherDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374614A4293A633C00CD4BF3 /* WeatherDetailView.swift */; };
+		374614A7293CC9C700CD4BF3 /* ForecastTemp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374614A6293CC9C700CD4BF3 /* ForecastTemp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +41,15 @@
 		3746148B29391E6A00CD4BF3 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		3746148D29391F1300CD4BF3 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		374614902939208200CD4BF3 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		374614922939237600CD4BF3 /* OnboardingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingVC.swift; sourceTree = "<group>"; };
+		374614952939B9EC00CD4BF3 /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
+		374614972939EC9600CD4BF3 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		3746149A2939F57700CD4BF3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		3746149D293A476E00CD4BF3 /* CustomTimeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTimeLabel.swift; sourceTree = "<group>"; };
+		3746149F293A487E00CD4BF3 /* MainBlueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBlueView.swift; sourceTree = "<group>"; };
+		374614A2293A4B1400CD4BF3 /* TimeViewMainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeViewMainVC.swift; sourceTree = "<group>"; };
+		374614A4293A633C00CD4BF3 /* WeatherDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailView.swift; sourceTree = "<group>"; };
+		374614A6293CC9C700CD4BF3 /* ForecastTemp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastTemp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,8 +85,10 @@
 				3746148A29391DB000CD4BF3 /* WeatherModule */,
 				3746148929391D9E00CD4BF3 /* Coordinators */,
 				3746148F2939206400CD4BF3 /* Managers */,
+				374614942939B9CD00CD4BF3 /* UIElements */,
 				3746147229391A1500CD4BF3 /* AppDelegate.swift */,
 				3746147429391A1500CD4BF3 /* SceneDelegate.swift */,
+				3746149A2939F57700CD4BF3 /* Helper.swift */,
 				3746147829391A1500CD4BF3 /* Main.storyboard */,
 				3746147E29391A1600CD4BF3 /* Assets.xcassets */,
 				3746148029391A1600CD4BF3 /* LaunchScreen.storyboard */,
@@ -89,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				3746147629391A1500CD4BF3 /* MainWeatherVC.swift */,
+				374614922939237600CD4BF3 /* OnboardingVC.swift */,
 				3746148D29391F1300CD4BF3 /* WeatherModel.swift */,
 			);
 			path = WeatherModule;
@@ -101,6 +122,28 @@
 				3746147B29391A1500CD4BF3 /* ForeCast.xcdatamodeld */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		374614942939B9CD00CD4BF3 /* UIElements */ = {
+			isa = PBXGroup;
+			children = (
+				374614A1293A4AF000CD4BF3 /* MainVC */,
+				374614952939B9EC00CD4BF3 /* CustomTextView.swift */,
+				374614972939EC9600CD4BF3 /* CustomButton.swift */,
+				3746149D293A476E00CD4BF3 /* CustomTimeLabel.swift */,
+			);
+			path = UIElements;
+			sourceTree = "<group>";
+		};
+		374614A1293A4AF000CD4BF3 /* MainVC */ = {
+			isa = PBXGroup;
+			children = (
+				3746149F293A487E00CD4BF3 /* MainBlueView.swift */,
+				374614A2293A4B1400CD4BF3 /* TimeViewMainVC.swift */,
+				374614A4293A633C00CD4BF3 /* WeatherDetailView.swift */,
+				374614A6293CC9C700CD4BF3 /* ForecastTemp.swift */,
+			);
+			path = MainVC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,11 +217,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3746149C2939F5AE00CD4BF3 /* Helper.swift in Sources */,
+				374614A0293A487E00CD4BF3 /* MainBlueView.swift in Sources */,
 				3746147D29391A1500CD4BF3 /* ForeCast.xcdatamodeld in Sources */,
+				3746149E293A476E00CD4BF3 /* CustomTimeLabel.swift in Sources */,
+				374614932939237600CD4BF3 /* OnboardingVC.swift in Sources */,
 				3746147729391A1500CD4BF3 /* MainWeatherVC.swift in Sources */,
 				3746148C29391E6A00CD4BF3 /* AppCoordinator.swift in Sources */,
+				374614982939EC9600CD4BF3 /* CustomButton.swift in Sources */,
 				3746147329391A1500CD4BF3 /* AppDelegate.swift in Sources */,
 				3746148E29391F1300CD4BF3 /* WeatherModel.swift in Sources */,
+				374614A7293CC9C700CD4BF3 /* ForecastTemp.swift in Sources */,
+				374614962939B9EC00CD4BF3 /* CustomTextView.swift in Sources */,
+				374614A3293A4B1400CD4BF3 /* TimeViewMainVC.swift in Sources */,
+				374614A5293A633C00CD4BF3 /* WeatherDetailView.swift in Sources */,
 				374614912939208200CD4BF3 /* CoreDataManager.swift in Sources */,
 				3746147529391A1500CD4BF3 /* SceneDelegate.swift in Sources */,
 			);
