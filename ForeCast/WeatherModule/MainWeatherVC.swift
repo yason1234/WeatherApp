@@ -23,11 +23,11 @@ class MainWeatherVC: UIViewController {
     private lazy var layout = UICollectionViewFlowLayout()
     private lazy var collectionView: UICollectionView = {
         layout.scrollDirection = .horizontal
-       // layout.minimumLineSpacing = 8
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.minimumLineSpacing = 16
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.showsHorizontalScrollIndicator = false
-        collection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
+        collection.register(MainCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.dataSource = self
         collection.delegate = self
@@ -52,6 +52,16 @@ class MainWeatherVC: UIViewController {
         button.titleLabel?.textAlignment = .right
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
+    }()
+    
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.backgroundColor = .white
+        return tableView
     }()
     
     private var viewModel: WeatherModelProtocol
@@ -80,6 +90,7 @@ class MainWeatherVC: UIViewController {
         view.addSubview(collectionView)
         view.addSubview(dailyForecast)
         view.addSubview(futureForecastButton)
+        view.addSubview(tableView)
     }
 }
 
@@ -99,7 +110,7 @@ extension MainWeatherVC {
             collectionView.topAnchor.constraint(equalTo: detailsForecast.bottomAnchor, constant: 24),
             collectionView.leadingAnchor.constraint(equalTo: blueView.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            collectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.09522),
+            collectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.103),
             
             dailyForecast.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 24),
             dailyForecast.leadingAnchor.constraint(equalTo: blueView.leadingAnchor),
@@ -111,7 +122,10 @@ extension MainWeatherVC {
             futureForecastButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.2613),
             futureForecastButton.heightAnchor.constraint(equalTo: futureForecastButton.widthAnchor, multiplier: 0.24096),
             
-            
+            tableView.topAnchor.constraint(equalTo: dailyForecast.bottomAnchor, constant: 10),
+            tableView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            tableView.widthAnchor.constraint(equalTo: blueView.widthAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
@@ -124,10 +138,31 @@ extension MainWeatherVC: UICollectionViewDelegateFlowLayout, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath)
-        cell.backgroundColor = .blue
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
         
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = blueView.bounds.width - 16 * 5 - 28
+        return CGSize(width: width / 6, height: collectionView.bounds.height)
+    }
+}
+
+//MARK: uiTableView
+extension MainWeatherVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath)
+        cell.textLabel?.text = "\(indexPath.row)"
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
