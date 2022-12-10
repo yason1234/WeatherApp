@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class MainWeatherVC: UIViewController {
 
@@ -21,9 +22,9 @@ class MainWeatherVC: UIViewController {
     }()
     
     private lazy var layout = UICollectionViewFlowLayout()
-    private lazy var collectionView: UICollectionView = {
+    private lazy var hourCollectionView: UICollectionView = {
         layout.scrollDirection = .horizontal
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        //layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.minimumLineSpacing = 16
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.showsHorizontalScrollIndicator = false
@@ -54,15 +55,24 @@ class MainWeatherVC: UIViewController {
         return button
     }()
     
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "tableCell")
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.backgroundColor = .white
-        return tableView
+    private lazy var layout2 = UICollectionViewFlowLayout()
+    private lazy var forecastCollectionView: UICollectionView = {
+        layout2.scrollDirection = .vertical
+        //layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout2.minimumLineSpacing = 10
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout2)
+        collection.showsHorizontalScrollIndicator = false
+        collection.register(MainForecastCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell2")
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.dataSource = self
+        collection.delegate = self
+        return collection
     }()
+    
+    private lazy var coreDataManager = CoreDataManager.shared
+    private lazy var hourlyForecast = [Hour]()
+
+    private let point = (55.4507, 37.3656)
     
     private var viewModel: WeatherModelProtocol
     
@@ -82,15 +92,47 @@ class MainWeatherVC: UIViewController {
         view.backgroundColor = .white
         setViews()
         setConstraints()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+//        NetworkManager.shared.downloadWeather(atPoint: point) { [weak self] weather in
+//            guard let weather else {
+//                print("not parse")
+//                return
+//            }
+//            self?.coreDataManager.createWeather(weather: weather)
+//            DispatchQueue.main.async {
+//                self?.coreDataManager.loadForecast(point: self!.point) { weather in
+//                    guard let weather else {
+//                        return
+//                    }
+//                    self?.hourlyForecast = weather.forecastSorted.first?.hourSorted.sorted(by: {$0 < $1 }) ?? []
+//                    self?.hourCollectionView.reloadData()
+//                }
+//            }
+//        }
+        
+        DispatchQueue.main.async {
+            self.coreDataManager.loadForecast(point: self.point) { weather in
+                guard let weather else {
+                    return
+                }
+                self.hourlyForecast = weather.forecastSorted.first?.hourSorted ?? []
+                self.hourCollectionView.reloadData()
+            }
+        }
     }
 
     private func setViews() {
         view.addSubview(blueView)
         view.addSubview(detailsForecast)
-        view.addSubview(collectionView)
+        view.addSubview(hourCollectionView)
         view.addSubview(dailyForecast)
         view.addSubview(futureForecastButton)
-        view.addSubview(tableView)
+        view.addSubview(forecastCollectionView)
     }
 }
 
@@ -107,12 +149,12 @@ extension MainWeatherVC {
             detailsForecast.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.564),
             detailsForecast.heightAnchor.constraint(equalTo: detailsForecast.widthAnchor, multiplier: 0.1149),
             
-            collectionView.topAnchor.constraint(equalTo: detailsForecast.bottomAnchor, constant: 24),
-            collectionView.leadingAnchor.constraint(equalTo: blueView.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            collectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.103),
+            hourCollectionView.topAnchor.constraint(equalTo: detailsForecast.bottomAnchor, constant: 24),
+            hourCollectionView.leadingAnchor.constraint(equalTo: blueView.leadingAnchor),
+            hourCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            hourCollectionView.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.103),
             
-            dailyForecast.topAnchor.constraint(equalTo: collectionView.bottomAnchor, constant: 24),
+            dailyForecast.topAnchor.constraint(equalTo: hourCollectionView.bottomAnchor, constant: 24),
             dailyForecast.leadingAnchor.constraint(equalTo: blueView.leadingAnchor),
             dailyForecast.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.57),
             dailyForecast.heightAnchor.constraint(equalTo: dailyForecast.widthAnchor, multiplier: 0.11),
@@ -122,10 +164,10 @@ extension MainWeatherVC {
             futureForecastButton.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.2613),
             futureForecastButton.heightAnchor.constraint(equalTo: futureForecastButton.widthAnchor, multiplier: 0.24096),
             
-            tableView.topAnchor.constraint(equalTo: dailyForecast.bottomAnchor, constant: 10),
-            tableView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            tableView.widthAnchor.constraint(equalTo: blueView.widthAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            forecastCollectionView.topAnchor.constraint(equalTo: dailyForecast.bottomAnchor, constant: 10),
+            forecastCollectionView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            forecastCollectionView.widthAnchor.constraint(equalTo: blueView.widthAnchor),
+            forecastCollectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
@@ -134,35 +176,34 @@ extension MainWeatherVC {
 extension MainWeatherVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        if collectionView == hourCollectionView {
+            return hourlyForecast.count
+        } else {
+            return 10
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as? MainCollectionViewCell else { return UICollectionViewCell() }
-        
-        return cell
+        if collectionView == hourCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as? MainCollectionViewCell   else { return UICollectionViewCell() }
+
+            cell.configureCell(fromHour: hourlyForecast[indexPath.row])
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell2", for: indexPath) as? MainForecastCollectionViewCell else { return UICollectionViewCell() }
+            
+            return cell
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = blueView.bounds.width - 16 * 5 - 28
-        return CGSize(width: width / 6, height: collectionView.bounds.height)
+        if collectionView == hourCollectionView {
+            let width = blueView.bounds.width - 16 * 5 - 28
+            return CGSize(width: width / 6, height: collectionView.bounds.height)
+        } else {
+            return CGSize(width: self.blueView.bounds.width, height: self.view.bounds.height * 0.0689)
+        }
     }
 }
 
-//MARK: uiTableView
-extension MainWeatherVC: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath)
-        cell.textLabel?.text = "\(indexPath.row)"
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
+

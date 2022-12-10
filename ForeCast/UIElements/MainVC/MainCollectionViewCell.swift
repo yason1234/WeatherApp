@@ -13,14 +13,14 @@ class MainCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "12:00"
+        //label.text = "12:00"
         return label
     }()
     
     private lazy var weatherImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "sun")
+       // imageView.image = UIImage(named: "sun")
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -31,7 +31,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textColor = UIColor(red: 0.31, green: 0.31, blue: 0.31, alpha: 1)
-        label.text = "23"
+        //label.text = "23"
         label.textAlignment = .center
         return label
     }()
@@ -59,6 +59,60 @@ class MainCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         self.layer.cornerRadius = self.frame.width * 0.523
     }
+    
+    func configureCell(fromHour hour: Hour) {
+        timeLabel.text = hour.hourTs.toDate()
+        tempLabel.text = "\(hour.temp)"
+        
+        switch hour.condition {
+            
+        case "clear":
+            weatherImage.image = UIImage(named: "rain")
+        case "overcast":
+            weatherImage.image = UIImage(named: "rain")
+        case "cloudy":
+            weatherImage.image = UIImage(named: "rain")
+        case "partly-cloudy-and-rain":
+            weatherImage.image = UIImage(named: "rain")
+        case "overcast-thunderstorms-with-rain":
+            weatherImage.image = UIImage(named: "rain")
+        case "wet-snow":
+            weatherImage.image = UIImage(named: "cloud")
+        case "partly-cloudy-and-snow":
+            weatherImage.image = UIImage(named: "cloud")
+        case "partly-cloudy":
+            weatherImage.image = UIImage(named: "cloud")
+        case "artly-cloudy-and-light-rain":
+            weatherImage.image = UIImage(named: "cloud")
+        case "overcast-and-rain":
+            weatherImage.image = UIImage(named: "cloud")
+        case "cloudy-and-light-rain":
+            weatherImage.image = UIImage(named: "cloud")
+        case "overcast-and-light-rain":
+            weatherImage.image = UIImage(named: "cloud")
+        case "cloudy-and-rain":
+            weatherImage.image = UIImage(named: "cloud")
+        case "light-snow":
+            weatherImage.image = UIImage(named: "cloud")
+        case "partly-cloudy-and-light-snow":
+            weatherImage.image = UIImage(named: "cloud")
+        case "overcast-and-light-snow":
+            weatherImage.image = UIImage(named: "cloud")
+        case "overcast-and-snow":
+            weatherImage.image = UIImage(named: "cloud")
+        case "cloudy-and-snow":
+            weatherImage.image = UIImage(named: "cloud")
+            
+        default: break
+        }
+    }
+    
+//    override func prepareForReuse() {
+//        super.prepareForReuse()
+//        timeLabel.text = nil
+//        tempLabel.text = nil
+//        weatherImage.image = nil
+//    }
 }
 
 extension MainCollectionViewCell {

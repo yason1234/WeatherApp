@@ -28,7 +28,10 @@
 		374614A7293CC9C700CD4BF3 /* ForecastTemp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374614A6293CC9C700CD4BF3 /* ForecastTemp.swift */; };
 		37A98459293FB055003147EC /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A98458293FB055003147EC /* PageViewController.swift */; };
 		37A9845B294052E2003147EC /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A9845A294052E2003147EC /* MainCollectionViewCell.swift */; };
-		37A9845E2940D70F003147EC /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A9845D2940D70F003147EC /* MainTableViewCell.swift */; };
+		37A9845E2940D70F003147EC /* MainForecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A9845D2940D70F003147EC /* MainForecastCollectionViewCell.swift */; };
+		37A9846029411DDF003147EC /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A9845F29411DDF003147EC /* NetworkManager.swift */; };
+		37A9846229419B04003147EC /* WeatherCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A9846129419B04003147EC /* WeatherCodable.swift */; };
+		37A9846529431D0D003147EC /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A9846429431D0D003147EC /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,7 +58,10 @@
 		374614A6293CC9C700CD4BF3 /* ForecastTemp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastTemp.swift; sourceTree = "<group>"; };
 		37A98458293FB055003147EC /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		37A9845A294052E2003147EC /* MainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewCell.swift; sourceTree = "<group>"; };
-		37A9845D2940D70F003147EC /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		37A9845D2940D70F003147EC /* MainForecastCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainForecastCollectionViewCell.swift; sourceTree = "<group>"; };
+		37A9845F29411DDF003147EC /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		37A9846129419B04003147EC /* WeatherCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCodable.swift; sourceTree = "<group>"; };
+		37A9846429431D0D003147EC /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +98,7 @@
 				3746148929391D9E00CD4BF3 /* Coordinators */,
 				3746148F2939206400CD4BF3 /* Managers */,
 				374614942939B9CD00CD4BF3 /* UIElements */,
+				37A9846329431CF8003147EC /* Extensions */,
 				3746147229391A1500CD4BF3 /* AppDelegate.swift */,
 				3746147429391A1500CD4BF3 /* SceneDelegate.swift */,
 				3746149A2939F57700CD4BF3 /* Helper.swift */,
@@ -127,6 +134,8 @@
 			children = (
 				374614902939208200CD4BF3 /* CoreDataManager.swift */,
 				3746147B29391A1500CD4BF3 /* ForeCast.xcdatamodeld */,
+				37A9845F29411DDF003147EC /* NetworkManager.swift */,
+				37A9846129419B04003147EC /* WeatherCodable.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -150,9 +159,17 @@
 				374614A4293A633C00CD4BF3 /* WeatherDetailView.swift */,
 				374614A6293CC9C700CD4BF3 /* ForecastTemp.swift */,
 				37A9845A294052E2003147EC /* MainCollectionViewCell.swift */,
-				37A9845D2940D70F003147EC /* MainTableViewCell.swift */,
+				37A9845D2940D70F003147EC /* MainForecastCollectionViewCell.swift */,
 			);
 			path = MainVC;
+			sourceTree = "<group>";
+		};
+		37A9846329431CF8003147EC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				37A9846429431D0D003147EC /* Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,7 +246,7 @@
 				3746149C2939F5AE00CD4BF3 /* Helper.swift in Sources */,
 				37A9845B294052E2003147EC /* MainCollectionViewCell.swift in Sources */,
 				374614A0293A487E00CD4BF3 /* MainBlueView.swift in Sources */,
-				37A9845E2940D70F003147EC /* MainTableViewCell.swift in Sources */,
+				37A9845E2940D70F003147EC /* MainForecastCollectionViewCell.swift in Sources */,
 				3746147D29391A1500CD4BF3 /* ForeCast.xcdatamodeld in Sources */,
 				3746149E293A476E00CD4BF3 /* CustomTimeLabel.swift in Sources */,
 				374614932939237600CD4BF3 /* OnboardingVC.swift in Sources */,
@@ -238,7 +255,10 @@
 				374614982939EC9600CD4BF3 /* CustomButton.swift in Sources */,
 				37A98459293FB055003147EC /* PageViewController.swift in Sources */,
 				3746147329391A1500CD4BF3 /* AppDelegate.swift in Sources */,
+				37A9846029411DDF003147EC /* NetworkManager.swift in Sources */,
+				37A9846229419B04003147EC /* WeatherCodable.swift in Sources */,
 				3746148E29391F1300CD4BF3 /* WeatherModel.swift in Sources */,
+				37A9846529431D0D003147EC /* Extension.swift in Sources */,
 				374614A7293CC9C700CD4BF3 /* ForecastTemp.swift in Sources */,
 				374614962939B9EC00CD4BF3 /* CustomTextView.swift in Sources */,
 				374614A3293A4B1400CD4BF3 /* TimeViewMainVC.swift in Sources */,
