@@ -46,11 +46,21 @@ struct FactCodable: Codable {
 
 struct ForecastCodable: Codable {
     
+    let date: String
+    let dateTs: Double
     let sunrise: String
     let sunset: String
     let parts: PartsCodable
     let hours: [HourCodable]
     
+    enum CodingKeys: String ,CodingKey {
+        case date
+        case dateTs = "date_ts"
+        case sunrise
+        case sunset
+        case parts
+        case hours
+    }
 }
 
 struct PartsCodable: Codable {
@@ -72,6 +82,7 @@ struct DayCodable: Codable {
     let precType: Int
     let precStrength: Double
     let cloudness: Double
+    let icon: String
     
     enum CodingKeys: String, CodingKey {
         case tempMin = "temp_min"
@@ -85,6 +96,7 @@ struct DayCodable: Codable {
         case precType = "prec_type"
         case precStrength = "prec_strength"
         case cloudness
+        case icon
     }
 }
 
@@ -95,6 +107,7 @@ struct HourCodable: Codable {
     let temp: Int
     let feelslike: Int
     let condition: String
+    let icon: String
     let windSpeed: Double
     let windDir: String
     let humidity: Int
@@ -108,6 +121,7 @@ struct HourCodable: Codable {
         case temp
         case feelslike = "feels_like"
         case condition
+        case icon
         case windSpeed = "wind_speed"
         case windDir = "wind_dir"
         case humidity
@@ -115,15 +129,4 @@ struct HourCodable: Codable {
         case precStrength = "prec_strength"
         case cloudness
     }
-}
-
-enum Cond {
-    
-    case clear
-    case cloudy
-    case overcast
-    case partlyCloudyAndLightRain
-    case overcastThunderstormsWithRain
-    case partlyCloudyAndSnow
-    case overcastAndSnow
 }

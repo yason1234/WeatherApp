@@ -40,7 +40,7 @@ final class CoreDataManager {
     
     var weatherCore: Weather?
     
-    func createWeather(weather: WeatherCodable) {
+    func createWeather(weather: WeatherCodable, completion: @escaping () -> Void) {
 
         persistentContainer.performBackgroundTask { backContext in
             if self.findInfo(atInfo: (weather.info.lat, weather.info.lon), context: backContext) == nil {
@@ -81,6 +81,7 @@ final class CoreDataManager {
                     newDay.tempMax = Int16(forecast.parts.day.tempMax)
                     newDay.tempAvg = Int16(forecast.parts.day.tempAvg)
                     newDay.humidity = Int16(forecast.parts.day.humidity)
+                    newDay.icon = forecast.parts.day.icon
                     
                     newNight.condition = forecast.parts.night.condition
                     newNight.precStrength = forecast.parts.night.precStrength
@@ -111,6 +112,7 @@ final class CoreDataManager {
                         newHour.hour = hour.hour
                         newHour.windDir = hour.windDir
                         newHour.hourTs = hour.hourTs
+                        newHour.icon = hour.icon
                         
                         newForecast.addToHour(newHour)
                     }
@@ -118,6 +120,8 @@ final class CoreDataManager {
                     newForecast.parts = newParts
                     newForecast.sunrise = forecast.sunrise
                     newForecast.sunset = forecast.sunset
+                    newForecast.date = forecast.date
+                    newForecast.dateTs = forecast.dateTs
                     newWeather.addToForecast(newForecast)
                     
                 }
@@ -132,14 +136,7 @@ final class CoreDataManager {
                 }
             }
         }
-    }
-    
-    func create(weather: WeatherCodable) {
-        persistentContainer.performBackgroundTask { backcontext in
-            if self.findInfo(atInfo: (weather.info.lat, weather.info.lon), context: backcontext) == nil {
-                
-            }
-        }
+        completion()
     }
     
     func loadForecast(point: (Double, Double), completion: @escaping (Weather?) -> Void) {
@@ -149,13 +146,23 @@ final class CoreDataManager {
             return
         }
         if let weather = findForecast(info: info, context: persistentContainer.viewContext) {
-           
             completion(weather)
-        }
+        } 
+        
     }
     
     private func findInfo(atInfo: (Double, Double), context: NSManagedObjectContext) -> Info? {
         let fetchRequest = Info.fetchRequest()
+        fetchRequest.predicate = NSCompoundPredicate(type: .and, subpredicates: [
+            NSPredicate(format: "lat == %@", NSNumber(floatLiteral: atInfo.0)),
+            NSPredicate(format: "lon == %@", NSNumber(floatLiteral: atInfo.1))
+        ])
+        
+        return (try? context.fetch(fetchRequest))?.first
+    }
+    
+    private func findInfoForCity(atInfo: (Double, Double), context: NSManagedObjectContext) -> InfoForCity? {
+        let fetchRequest = InfoForCity.fetchRequest()
         fetchRequest.predicate = NSCompoundPredicate(type: .and, subpredicates: [
             NSPredicate(format: "lat == %@", NSNumber(floatLiteral: atInfo.0)),
             NSPredicate(format: "lon == %@", NSNumber(floatLiteral: atInfo.1))
@@ -187,5 +194,30 @@ final class CoreDataManager {
             return newInfo
         }
     }
+    
+    func addCity(atPoint point: (Double, Double), completion: @escaping () -> Void) {
+        if self.findInfoForCity(atInfo: point, context: persistentContainer.viewContext) == nil {
+            let newCity = City(context: persistentContainer.viewContext)
+            let newInfo = InfoForCity(context: persistentContainer.viewContext)
+            newInfo.lat = point.0
+            newInfo.lon = point.1
+            newCity.info = newInfo
+            
+            saveContext()
+            completion()
+        }
+    }
+    
+    func loadCity() -> [City] {
+        let fetchRequest = City.fetchRequest()
+        do {
+           let cities = try persistentContainer.viewContext.fetch(fetchRequest)
+            return cities
+        } catch {
+            print(error)
+            return []
+        }
+    }
+    
 }
 

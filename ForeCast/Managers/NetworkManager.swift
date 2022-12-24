@@ -5,7 +5,8 @@
 //  Created by Dima Shikhalev on 07.12.2022.
 //
 
-import Foundation
+import UIKit
+import CoreLocation
 
 final class NetworkManager {
     
@@ -17,7 +18,7 @@ final class NetworkManager {
             "X-Yandex-API-Key": "47e7a24e-3979-4fc6-9cd1-b634cd7880f4"
         ]
 
-        let request = NSMutableURLRequest(url: NSURL(string: "https://api.weather.yandex.ru/v2/forecast?lat=\(point.0)&lon=\(point.1)&limit=\(7)&extra=true")! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
+        let request = NSMutableURLRequest(url: NSURL(string: "https://api.weather.yandex.ru/v2/forecast?lat=\(point.0)&lon=\(point.1)&limit=\(7)&hours=true&extra=true")! as URL, cachePolicy: .useProtocolCachePolicy, timeoutInterval: 10.0)
         request.allHTTPHeaderFields = headers
 
         let session = URLSession.shared
@@ -28,7 +29,7 @@ final class NetworkManager {
             }
             
             if let httpResponse = response as? HTTPURLResponse {
-             //   print("http status code: \(httpResponse.statusCode)")
+                print("http status code: \(httpResponse.statusCode)")
             }
             
             guard let data = data else {
@@ -45,4 +46,9 @@ final class NetworkManager {
         dataTask.resume()
     }
     
+    func getCoordinate(city: String, completion: @escaping (_ coordinate: CLLocationCoordinate2D?, _ error: Error?) -> Void) {
+        CLGeocoder().geocodeAddressString(city) { placemark, error in
+            completion(placemark?.first?.location?.coordinate, error)
+        }
+    }
 }

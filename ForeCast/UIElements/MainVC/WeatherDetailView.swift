@@ -20,7 +20,6 @@ final class WeatherDetailView: UIView {
     
     private lazy var cloudLabel: UILabel = {
         let label = UILabel()
-        label.text = "0"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .white
@@ -38,7 +37,6 @@ final class WeatherDetailView: UIView {
     
     private lazy var windLabel: UILabel = {
         let label = UILabel()
-        label.text = "3 m/s"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .white
@@ -56,12 +54,17 @@ final class WeatherDetailView: UIView {
     
     private lazy var rainLabel: UILabel = {
         let label = UILabel()
-        label.text = "75%"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .white
         return label
     }()
+    
+    func configure(fromDay day: Day) {
+        windLabel.text = "\(Int(day.windSpeed)) m/s"
+        rainLabel.text = "\(day.humidity)%"
+        cloudLabel.text = "\(day.feelslike)"
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -94,7 +97,7 @@ extension WeatherDetailView {
 
             cloudLabel.centerYAnchor.constraint(equalTo: cloudImage.centerYAnchor),
             cloudLabel.leadingAnchor.constraint(equalTo: cloudImage.trailingAnchor, constant: 5.4),
-            cloudLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.05),
+            cloudLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.10),
             cloudLabel.heightAnchor.constraint(equalTo: cloudImage.heightAnchor),
             
             windImage.leadingAnchor.constraint(equalTo: cloudLabel.trailingAnchor, constant: 19),
@@ -115,7 +118,7 @@ extension WeatherDetailView {
             rainLabel.centerYAnchor.constraint(equalTo: windImage.centerYAnchor),
             rainLabel.leadingAnchor.constraint(equalTo: rainImage.trailingAnchor, constant: 5),
             rainLabel.heightAnchor.constraint(equalTo: cloudImage.heightAnchor),
-            rainLabel.widthAnchor.constraint(equalTo: rainLabel.heightAnchor, multiplier: 1.55),
+            rainLabel.widthAnchor.constraint(equalTo: rainLabel.heightAnchor, multiplier: 1.6),
             
         ])
     }

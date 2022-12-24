@@ -33,6 +33,10 @@ final class ForecastTemp: UIView {
         return imageView
     }()
     
+    func configure(day: Day) {
+        label.text = "\(day.tempMin)/\(day.tempMax)"
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

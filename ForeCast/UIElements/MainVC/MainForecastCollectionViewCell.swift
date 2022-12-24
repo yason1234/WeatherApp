@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import SwiftSVG
 
 class MainForecastCollectionViewCell: UICollectionViewCell {
     
     private lazy var dateLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor(red: 0.604, green: 0.587, blue: 0.587, alpha: 1)
         label.font = .systemFont(ofSize: 16, weight: .regular)
@@ -31,34 +32,34 @@ class MainForecastCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var weatherImage: UIImageView = {
-       let imageView = UIImageView()
+    private lazy var weatherImage: UIView = {
+       let imageView = UIView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "rain")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private lazy var descriptionLabel: UILabel = {
-       let label = UILabel()
+    lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
         label.textColor = UIColor(red: 0.154, green: 0.152, blue: 0.135, alpha: 1)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "Rubik-Regular", size: 16)
         var paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.05
+//        label.textAlignment = .center
         label.attributedText = NSMutableAttributedString(string: "Преимущес...облачно", attributes: [NSAttributedString.Key.kern: 0.16, NSAttributedString.Key.paragraphStyle: paragraphStyle])
         return label
     }()
     
     private lazy var minMaxLabel: UILabel = {
         let label = UILabel()
-         label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
-         label.translatesAutoresizingMaskIntoConstraints = false
-         label.font = UIFont(name: "Rubik-Regular", size: 18)
-         var paragraphStyle = NSMutableParagraphStyle()
-         paragraphStyle.lineHeightMultiple = 1.08
-         label.attributedText = NSMutableAttributedString(string: "4 -11", attributes: [NSAttributedString.Key.kern: 0.16, NSAttributedString.Key.paragraphStyle: paragraphStyle])
-         return label
+        label.textColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "Rubik-Regular", size: 18)
+        var paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.08
+        label.attributedText = NSMutableAttributedString(string: "4 -11", attributes: [NSAttributedString.Key.kern: 0.16, NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        return label
     }()
     
     override init(frame: CGRect) {
@@ -72,6 +73,11 @@ class MainForecastCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.cornerRadius = self.bounds.height * 0.0892
+    }
+    
     private func setView() {
         self.addSubview(dateLabel)
         self.addSubview(percentLabel)
@@ -82,13 +88,66 @@ class MainForecastCollectionViewCell: UICollectionViewCell {
         self.backgroundColor = UIColor(red: 0.914, green: 0.933, blue: 0.98, alpha: 1)
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        self.layer.cornerRadius = self.bounds.height * 0.0892
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        minMaxLabel.text = nil
+        //weatherImage.image = nil
+        dateLabel.text = nil
+        percentLabel.text = nil
     }
     
+    func configureCell(fromForecast forecast: Forecast) {
+        
+        guard let day = forecast.parts?.day else { return }
+        percentLabel.text = "\(String(describing: day.humidity))%"
+        minMaxLabel.text = "\(day.tempMax) \(day.tempMin)"
+        if let icon = day.icon {
+            weatherImage.downloadedFrom(link: "https://yastatic.net/weather/i/icons/funky/dark/\(icon).svg")
+        }
+        dateLabel.text = forecast.dateTs.toDate()
+        
+        switch day.condition {
+        case "clear":
+            descriptionLabel.text = "Ясно"
+        case "overcast":
+            descriptionLabel.text = "Малооблачно"
+        case "cloudy":
+            descriptionLabel.text = "Облачно с прояснениями"
+        case "partly-cloudy-and-rain":
+            descriptionLabel.text = "Малооблачно, дождь"
+        case "overcast-thunderstorms-with-rain":
+            descriptionLabel.text = "Сильный дождь с грозой"
+        case "wet-snow":
+            descriptionLabel.text = "Дождь со снегом"
+        case "partly-cloudy-and-snow":
+            descriptionLabel.text = "Малооблачно, снег"
+        case "partly-cloudy":
+            descriptionLabel.text = "Малооблачно"
+        case "partly-cloudy-and-light-rain":
+            descriptionLabel.text = "Небольшой снег"
+        case "overcast-and-rain":
+            descriptionLabel.text = "Значительная облачность, сильный дожд"
+        case "cloudy-and-light-rain":
+            descriptionLabel.text = "Облачно, небольшой дождь"
+        case "overcast-and-light-rain":
+            descriptionLabel.text = "Значительная облачность, небольшой дождь."
+        case "cloudy-and-rain":
+            descriptionLabel.text = "Облачно, дождь"
+        case "light-snow":
+            descriptionLabel.text = "Небольшой снег"
+        case "partly-cloudy-and-light-snow":
+            descriptionLabel.text = "малооблачно, снег"
+        case "overcast-and-light-snow":
+            descriptionLabel.text = "Небольшой снег"
+        case "overcast-and-snow":
+            descriptionLabel.text = "Снегопад"
+        case "cloudy-and-snow":
+            descriptionLabel.text = "Облачно, снег"
+            
+        default: break
+        }
+    }
 }
-
 extension MainForecastCollectionViewCell {
     private func setConstraints() {
         NSLayoutConstraint.activate([

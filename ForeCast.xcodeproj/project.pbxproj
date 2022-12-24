@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		373C44C129446BDE005D0807 /* AddingCityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 373C44C029446BDE005D0807 /* AddingCityViewController.swift */; };
 		3746147329391A1500CD4BF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3746147229391A1500CD4BF3 /* AppDelegate.swift */; };
 		3746147529391A1500CD4BF3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3746147429391A1500CD4BF3 /* SceneDelegate.swift */; };
 		3746147729391A1500CD4BF3 /* MainWeatherVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3746147629391A1500CD4BF3 /* MainWeatherVC.swift */; };
@@ -26,6 +27,7 @@
 		374614A3293A4B1400CD4BF3 /* TimeViewMainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374614A2293A4B1400CD4BF3 /* TimeViewMainVC.swift */; };
 		374614A5293A633C00CD4BF3 /* WeatherDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374614A4293A633C00CD4BF3 /* WeatherDetailView.swift */; };
 		374614A7293CC9C700CD4BF3 /* ForecastTemp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374614A6293CC9C700CD4BF3 /* ForecastTemp.swift */; };
+		3760DC8E295223F500AB417A /* SwiftSVG in Frameworks */ = {isa = PBXBuildFile; productRef = 3760DC8D295223F500AB417A /* SwiftSVG */; };
 		37A98459293FB055003147EC /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A98458293FB055003147EC /* PageViewController.swift */; };
 		37A9845B294052E2003147EC /* MainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A9845A294052E2003147EC /* MainCollectionViewCell.swift */; };
 		37A9845E2940D70F003147EC /* MainForecastCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A9845D2940D70F003147EC /* MainForecastCollectionViewCell.swift */; };
@@ -35,6 +37,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		373C44C029446BDE005D0807 /* AddingCityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingCityViewController.swift; sourceTree = "<group>"; };
 		3746146F29391A1500CD4BF3 /* ForeCast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ForeCast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3746147229391A1500CD4BF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3746147429391A1500CD4BF3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3760DC8E295223F500AB417A /* SwiftSVG in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +129,7 @@
 				374614922939237600CD4BF3 /* OnboardingVC.swift */,
 				3746148D29391F1300CD4BF3 /* WeatherModel.swift */,
 				37A98458293FB055003147EC /* PageViewController.swift */,
+				373C44C029446BDE005D0807 /* AddingCityViewController.swift */,
 			);
 			path = WeatherModule;
 			sourceTree = "<group>";
@@ -188,6 +193,9 @@
 			dependencies = (
 			);
 			name = ForeCast;
+			packageProductDependencies = (
+				3760DC8D295223F500AB417A /* SwiftSVG */,
+			);
 			productName = ForeCast;
 			productReference = 3746146F29391A1500CD4BF3 /* ForeCast.app */;
 			productType = "com.apple.product-type.application";
@@ -216,6 +224,9 @@
 				Base,
 			);
 			mainGroup = 3746146629391A1500CD4BF3;
+			packageReferences = (
+				3760DC8C295223F500AB417A /* XCRemoteSwiftPackageReference "SwiftSVG" */,
+			);
 			productRefGroup = 3746147029391A1500CD4BF3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -251,6 +262,7 @@
 				3746149E293A476E00CD4BF3 /* CustomTimeLabel.swift in Sources */,
 				374614932939237600CD4BF3 /* OnboardingVC.swift in Sources */,
 				3746147729391A1500CD4BF3 /* MainWeatherVC.swift in Sources */,
+				373C44C129446BDE005D0807 /* AddingCityViewController.swift in Sources */,
 				3746148C29391E6A00CD4BF3 /* AppCoordinator.swift in Sources */,
 				374614982939EC9600CD4BF3 /* CustomButton.swift in Sources */,
 				37A98459293FB055003147EC /* PageViewController.swift in Sources */,
@@ -417,6 +429,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -443,6 +456,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -478,6 +492,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3760DC8C295223F500AB417A /* XCRemoteSwiftPackageReference "SwiftSVG" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mchoe/SwiftSVG";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3760DC8D295223F500AB417A /* SwiftSVG */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3760DC8C295223F500AB417A /* XCRemoteSwiftPackageReference "SwiftSVG" */;
+			productName = SwiftSVG;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		3746147B29391A1500CD4BF3 /* ForeCast.xcdatamodeld */ = {

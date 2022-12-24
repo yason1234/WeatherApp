@@ -10,7 +10,6 @@ import UIKit
 final class AppCoordinator {
     
     func start() -> UIViewController {
-        let viewModel = WeatherModel()
-        return UINavigationController(rootViewController: PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal))//MainWeatherVC(viewModel: viewModel))
+        return UINavigationController(rootViewController: PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal))
     }
 }

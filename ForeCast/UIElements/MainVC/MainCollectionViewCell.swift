@@ -20,7 +20,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     private lazy var weatherImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-       // imageView.image = UIImage(named: "sun")
+//        imageView.image = UIImage(named: "sun")
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -61,48 +61,51 @@ class MainCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(fromHour hour: Hour) {
-        timeLabel.text = hour.hourTs.toDate()
+        timeLabel.text = hour.hourTs.toTime()
         tempLabel.text = "\(hour.temp)"
+//        if let icon = hour.icon {
+//            weatherImage.downloadedFrom(link: "https://yastatic.net/weather/i/icons/funky/dark/\(icon).svg")
+//        }
         
         switch hour.condition {
-            
+
         case "clear":
-            weatherImage.image = UIImage(named: "rain")
+            weatherImage.image = UIImage(named: "sun")
         case "overcast":
-            weatherImage.image = UIImage(named: "rain")
+            weatherImage.image = UIImage(named: "darkCloud")
         case "cloudy":
-            weatherImage.image = UIImage(named: "rain")
+            weatherImage.image = UIImage(named: "cloud")
         case "partly-cloudy-and-rain":
-            weatherImage.image = UIImage(named: "rain")
+            weatherImage.image = UIImage(named: "cloudRain")
         case "overcast-thunderstorms-with-rain":
-            weatherImage.image = UIImage(named: "rain")
+            weatherImage.image = UIImage(named: "rainThunder")
         case "wet-snow":
-            weatherImage.image = UIImage(named: "cloud")
+            weatherImage.image = UIImage(named: "rain")
         case "partly-cloudy-and-snow":
-            weatherImage.image = UIImage(named: "cloud")
+            weatherImage.image = UIImage(named: "darkCloud")
         case "partly-cloudy":
             weatherImage.image = UIImage(named: "cloud")
-        case "artly-cloudy-and-light-rain":
-            weatherImage.image = UIImage(named: "cloud")
+        case "partly-cloudy-and-light-rain":
+            weatherImage.image = UIImage(named: "cloudRain")
         case "overcast-and-rain":
-            weatherImage.image = UIImage(named: "cloud")
+            weatherImage.image = UIImage(named: "cloudRain")
         case "cloudy-and-light-rain":
-            weatherImage.image = UIImage(named: "cloud")
+            weatherImage.image = UIImage(named: "cloudRain")
         case "overcast-and-light-rain":
-            weatherImage.image = UIImage(named: "cloud")
+            weatherImage.image = UIImage(named: "rain")
         case "cloudy-and-rain":
             weatherImage.image = UIImage(named: "cloud")
         case "light-snow":
-            weatherImage.image = UIImage(named: "cloud")
+            weatherImage.image = UIImage(named: "rain")
         case "partly-cloudy-and-light-snow":
-            weatherImage.image = UIImage(named: "cloud")
+            weatherImage.image = UIImage(named: "darkCloud")
         case "overcast-and-light-snow":
-            weatherImage.image = UIImage(named: "cloud")
+            weatherImage.image = UIImage(named: "darkCloud")
         case "overcast-and-snow":
-            weatherImage.image = UIImage(named: "cloud")
+            weatherImage.image = UIImage(named: "darkCloud")
         case "cloudy-and-snow":
-            weatherImage.image = UIImage(named: "cloud")
-            
+            weatherImage.image = UIImage(named: "darkCloud")
+
         default: break
         }
     }

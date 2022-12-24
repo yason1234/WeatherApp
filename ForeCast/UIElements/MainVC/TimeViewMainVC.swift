@@ -14,7 +14,6 @@ final class TimeViewMainVC: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor(red: 0.965, green: 0.867, blue: 0.004, alpha: 1)
         label.font = .systemFont(ofSize: 20, weight: .regular)
-        label.text = "17:48,  пт 16 апреля"
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -32,6 +31,13 @@ final class TimeViewMainVC: UIView {
     private func setupViews() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(timeLabel)
+        
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .full
+        dateFormatter.dateFormat = "dd:MM, E d MMMM"
+        let dateString = dateFormatter.string(from: date)
+        timeLabel.text = dateString
     }
     
     private func setConstraint() {

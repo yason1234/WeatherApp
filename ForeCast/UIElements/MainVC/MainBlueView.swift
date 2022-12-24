@@ -15,7 +15,6 @@ class MainBlueView: UIView {
     private lazy var weatherDetailView = WeatherDetailView()
     private lazy var statusLabel: UILabel = {
         let label = UILabel()
-        label.text = "Возможен небольшой дождь"
         label.textColor = .white
         label.font = .systemFont(ofSize: 16, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -30,6 +29,7 @@ class MainBlueView: UIView {
         label.textColor = .white
         label.font = .systemFont(ofSize: 36, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
         return label
     }()
     
@@ -63,6 +63,18 @@ class MainBlueView: UIView {
         self.addSubview(gradusImage)
         self.addSubview(futureTempView)
     }
+    
+    func configureView(fromForecast forecast: Forecast) {
+        guard let day = forecast.parts?.day else { return }
+        
+        morningTimeLabel.text = forecast.sunrise
+        eveningTimeLabel.text = forecast.sunset
+        tempLabel.text = "\(day.tempAvg)"
+        futureTempView.configure(day: day)
+        statusLabel.switchConditionBlueView(condition: day.condition!)
+        weatherDetailView.configure(fromDay: day)
+        
+    }
 }
 
 extension MainBlueView {
@@ -95,7 +107,7 @@ extension MainBlueView {
             statusLabel.bottomAnchor.constraint(equalTo: weatherDetailView.topAnchor, constant: -8),
             statusLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.659),
             statusLabel.heightAnchor.constraint(equalTo: statusLabel.widthAnchor, multiplier: 0.08),
-            statusLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            statusLabel.centerXAnchor.constraint(equalTo: self.tempLabel.centerXAnchor),
 
             tempLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             tempLabel.bottomAnchor.constraint(equalTo: statusLabel.topAnchor, constant: -5),
@@ -111,8 +123,6 @@ extension MainBlueView {
             futureTempView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.127),
             futureTempView.heightAnchor.constraint(equalTo: futureTempView.widthAnchor, multiplier: 0.4545),
             futureTempView.bottomAnchor.constraint(equalTo: tempLabel.topAnchor, constant: -5)
-
-            
         ])
     }
 }

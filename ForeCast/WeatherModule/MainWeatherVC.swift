@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class MainWeatherVC: UIViewController {
+class MainWeatherVC: UIViewController, WeatherModelProtocol {
 
     private lazy var blueView = MainBlueView()
     private lazy var detailsForecast: UILabel = {
@@ -24,7 +24,6 @@ class MainWeatherVC: UIViewController {
     private lazy var layout = UICollectionViewFlowLayout()
     private lazy var hourCollectionView: UICollectionView = {
         layout.scrollDirection = .horizontal
-        //layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout.minimumLineSpacing = 16
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.showsHorizontalScrollIndicator = false
@@ -58,7 +57,6 @@ class MainWeatherVC: UIViewController {
     private lazy var layout2 = UICollectionViewFlowLayout()
     private lazy var forecastCollectionView: UICollectionView = {
         layout2.scrollDirection = .vertical
-        //layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         layout2.minimumLineSpacing = 10
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout2)
         collection.showsHorizontalScrollIndicator = false
@@ -71,13 +69,15 @@ class MainWeatherVC: UIViewController {
     
     private lazy var coreDataManager = CoreDataManager.shared
     private lazy var hourlyForecast = [Hour]()
+    private lazy var forecast = [Forecast]()
 
-    private let point = (55.4507, 37.3656)
+    private var point: (Double, Double)
     
     private var viewModel: WeatherModelProtocol
     
-    init(viewModel: WeatherModelProtocol) {
+    init(viewModel: WeatherModelProtocol, point: (Double, Double)) {
         self.viewModel = viewModel
+        self.point = point
         super.init(nibName: nil, bundle: nil)
         
     }
@@ -98,30 +98,24 @@ class MainWeatherVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        NetworkManager.shared.downloadWeather(atPoint: point) { [weak self] weather in
-//            guard let weather else {
-//                print("not parse")
-//                return
-//            }
-//            self?.coreDataManager.createWeather(weather: weather)
-//            DispatchQueue.main.async {
-//                self?.coreDataManager.loadForecast(point: self!.point) { weather in
-//                    guard let weather else {
-//                        return
-//                    }
-//                    self?.hourlyForecast = weather.forecastSorted.first?.hourSorted.sorted(by: {$0 < $1 }) ?? []
-//                    self?.hourCollectionView.reloadData()
-//                }
-//            }
-//        }
-        
-        DispatchQueue.main.async {
-            self.coreDataManager.loadForecast(point: self.point) { weather in
-                guard let weather else {
-                    return
+        NetworkManager.shared.downloadWeather(atPoint: point) { [weak self] weather in
+            guard let weather else {
+                print("not parse")
+                return
+            }
+            self?.coreDataManager.createWeather(weather: weather) {
+                self?.coreDataManager.loadForecast(point: self!.point) { weather in
+                        guard let weather else {
+                            return
+                        }
+                        DispatchQueue.main.async {
+                            self?.hourlyForecast = weather.forecastSorted.first?.hourSorted.sorted(by: {$0 < $1 }) ?? []
+                            self?.forecast = weather.forecastSorted
+                            self?.hourCollectionView.reloadData()
+                            self?.forecastCollectionView.reloadData()
+                            self?.blueView.configureView(fromForecast: weather.forecastSorted.first!)
+                    }
                 }
-                self.hourlyForecast = weather.forecastSorted.first?.hourSorted ?? []
-                self.hourCollectionView.reloadData()
             }
         }
     }
@@ -133,6 +127,12 @@ class MainWeatherVC: UIViewController {
         view.addSubview(dailyForecast)
         view.addSubview(futureForecastButton)
         view.addSubview(forecastCollectionView)
+        
+        parent?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "add"), style: .done, target: self, action: #selector(addWeather))
+    }
+    
+    @objc private func addWeather() {
+        Helper.shared.addCoordinate(vc: self)
     }
 }
 
@@ -179,7 +179,7 @@ extension MainWeatherVC: UICollectionViewDelegateFlowLayout, UICollectionViewDat
         if collectionView == hourCollectionView {
             return hourlyForecast.count
         } else {
-            return 10
+            return forecast.count
         }
     }
     
@@ -192,6 +192,7 @@ extension MainWeatherVC: UICollectionViewDelegateFlowLayout, UICollectionViewDat
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell2", for: indexPath) as? MainForecastCollectionViewCell else { return UICollectionViewCell() }
             
+            cell.configureCell(fromForecast: forecast[indexPath.row])
             return cell
         }
     }
